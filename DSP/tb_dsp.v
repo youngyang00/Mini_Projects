@@ -14,7 +14,6 @@ module tb_dsp();
     reg CLK;
     reg EN;
     reg ACC_EN;
-    reg ACC_IN_EN;
     reg signed [WIDTH_OP1-1:0] OP1;
     reg signed [WIDTH_OP2-1:0] OP2;
     
@@ -28,10 +27,8 @@ DSP #(
     .RSTN(RSTN),
     .EN(EN),
     .ACC_EN(ACC_EN),
-    .ACC_IN_EN(ACC_IN_EN),
     .OP1(OP1),
     .OP2(OP2),
-    .ACC(),
     .OUT(OUT)
 );
 
@@ -48,7 +45,6 @@ initial begin
     RSTN=0;
     EN=1;
     ACC_EN=0;
-    ACC_IN_EN=0;
     OP1=0;
     OP2=0;   
     
