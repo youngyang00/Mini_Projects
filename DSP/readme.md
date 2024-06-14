@@ -2,7 +2,7 @@
 DSP is a specialized Digital Signal Processing slice used in Xilinx FPGAs(Specifically called DSP48E1)
 DSP48E1 can be used through Xinlinx vivado IP. But can also be designed by writing code.
 
-Originally, DSP48E1 is more complex than this one, but this module is simplified and mainly focused on Multiply-Accumulate(MAC) opeartion for matrix operations to proceed later which is very important part in MLP.
+Originally, DSP48E1 is more complex than this one and also can perform various operations, but this module is simplified and mainly focused on Multiply-Accumulate(MAC) opeartion for matrix operations to proceed later which is very important part in MLP.
 
 The vivado compiler recognizes this code as DSP48E1. and two FFs are stand for reset.
 
