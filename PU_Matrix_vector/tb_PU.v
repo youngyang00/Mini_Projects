@@ -8,7 +8,9 @@ localparam MATRIX_ROW = 8;
 localparam MATRIX_COL = 16;
 
 localparam CLOCK_PERIOD = 10;
+localparam TEST_INTERATION = 5;
 
+integer                                       expecetd_result;
 reg signed [WIDTH_OP1-1:0]                     TB_A;
 reg signed [WIDTH_OP2-1:0]                     TB_B[MATRIX_ROW-1:0];
 reg signed [WIDTH_OUT-1:0]                     TB_PARTIAL_SUM[MATRIX_ROW-1:0];
@@ -44,6 +46,8 @@ initial begin
     forever #(CLOCK_PERIOD/2) CLK = ~CLK;
 end
 
+
+
 integer i;
 
 initial begin
@@ -55,12 +59,15 @@ initial begin
     CLK=0;
     START=0;
     RSTN=0;
-
     #30 RSTN=1;
+
+
+//OPERATION TEST START
+repeat (TEST_INTERATION) begin
     @(posedge CLK);
     START= 1;
     @(posedge CLK);
-
+    START= 0;
     repeat(16) begin
         @(posedge CLK);
         #5;
@@ -72,11 +79,27 @@ initial begin
             TB_PARTIAL_SUM[i] = TB_PARTIAL_SUM[i] + TB_A * TB_B[i];
         end
     end
+
+    wait(DONE==1);
+
+    for (i = 0; i < MATRIX_ROW ; i = i + 1) begin
+        expecetd_result = OUT[WIDTH_OUT*i +: WIDTH_OUT];
+        if(i!=MATRIX_ROW-1)$display("%dth element: %d / Expected Result: %d",i,expecetd_result,TB_PARTIAL_SUM[i]);
+        else $display("%dth element: %d / Expected Result: %d \n\n",i,expecetd_result,TB_PARTIAL_SUM[i]);
+    end
+
+    repeat(4) @(posedge CLK);
+    RSTN = 0;
+        for (i = 0; i < MATRIX_ROW ; i = i + 1) begin
+            TB_PARTIAL_SUM[i] = 0;
+        end
+    A=0;B=0;
+
+//OPERATION TEST FINISH
+    repeat(3)@(posedge CLK);
+    RSTN = 1;
 end
-
-
-
-
-
+$finish;
+end
 
 endmodule
