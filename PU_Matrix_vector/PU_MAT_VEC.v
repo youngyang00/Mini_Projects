@@ -1,3 +1,23 @@
+/*
+
+PU #(
+    .WIDTH_OP1(),
+    .WIDTH_OP2(),
+    .WIDTH_OUT(),
+    .MATRIX_ROW(),
+    .MATRIX_COL()
+) pu_instance (
+    .A(),                        
+    .B(),                        
+    .START(),                   
+    .CLK(),                     
+    .RSTN(),                    
+    .OUT(),                      
+    .DONE()                      
+);
+
+*/
+
 module PU#(
     parameter WIDTH_OP1 = 16,
     parameter WIDTH_OP2 = 16,
@@ -121,7 +141,7 @@ always @(*) begin
     case (current_state)
         3'd0: if(START)next_state = 3'd1; else next_state = 3'd0;
         3'd1: if(cnt==MATRIX_COL+2) next_state = 3'd2; else next_state = 3'd1;
-        
+        3'd2: next_state = 3'd2;
         default: next_state=3'd0;
     endcase
 end
@@ -132,10 +152,10 @@ always @(*) begin
             DONE=0;EN=0;ACC_EN=0;DSP_RSTN=0;cnt_en=0;
         end
         3'd1:begin
-            DONE=0;EN=1;ACC_EN=1;DSP_RSTN=1;cnt_en=0;
+            DONE=0;EN=1;ACC_EN=1;DSP_RSTN=1;cnt_en=1;
         end
         3'd2:begin
-            DONE=1;EN=1;ACC_EN=1;DSP_RSTN=1;cnt_en=0;
+            DONE=1;EN=1;ACC_EN=0;DSP_RSTN=1;cnt_en=0;
         end
         default: begin 
             DONE=0;EN=0;ACC_EN=0;DSP_RSTN=0;cnt_en=0;
