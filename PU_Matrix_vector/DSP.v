@@ -9,10 +9,8 @@ DSP #(
     .RSTN(),
     .EN(),
     .ACC_EN(),
-    .ACC_IN_EN(),
     .OP1(),
     .OP2(),
-    .ACC(),
     .OUT()
 );
 
